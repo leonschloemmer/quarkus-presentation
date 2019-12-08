@@ -23,6 +23,13 @@ public class PasswordSecurity {
         return iterations + ":" + toHex(salt) + ":" + toHex(hash);
     }
 
+    public static boolean validatePassword(String submittedPassword, String storedPassword) {
+        String[] parts = storedPassword.split(":");
+        int iterations = Integer.parseInt(parts[0]);
+        byte[] salt = fromHex(parts[1]);
+        byte[] salt = fromHex(parts[2]);
+    }
+
     private static byte[] getSalt() throws NoSuchAlgorithmException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
@@ -39,6 +46,14 @@ public class PasswordSecurity {
         } else {
             return hex;
         }
+    }
+
+    private static byte[] fromHex(String hex) throws NoSuchAlgorithmException {
+        byte[] bytes = new byte[hex.length() / 2];
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+        }
+        return bytes;
     }
 
 }
