@@ -3,7 +3,7 @@
 Execucte following commands in the console, inside src/main/resources
 
 ```
-openssl genrsa -des3 -out private.pem 2048
+openssl genrsa -des3 -out private.pem 4096
 ```
 
 ```
