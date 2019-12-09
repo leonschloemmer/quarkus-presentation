@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static io.smallrye.jwt.KeyUtils.decodePrivateKey;
-import static io.smallrye.jwt.KeyUtils.readPrivateKey;
+//import static io.smallrye.jwt.KeyUtils.readPrivateKey;
 
 public class TokenUtils {
 
@@ -30,6 +30,13 @@ public class TokenUtils {
             throws Exception{
         PrivateKey pk = readPrivateKey("/private.pem");
         return generateTokenString(pk, "/private.pem", uid);
+    }
+
+    public static PrivateKey readPrivateKey(final String pemResName) throws Exception {
+        InputStream contentIS = TokenUtils.class.getResourceAsStream(pemResName);
+        byte[] tmp = new byte[4096];
+        int length = contentIS.read(tmp);
+        return decodePrivateKey(new String(tmp, 0, length, "UTF-8"));
     }
 
     public static String generateTokenString(PrivateKey privateKey, String kid, String uid) throws Exception {
@@ -50,7 +57,7 @@ public class TokenUtils {
         jws.setKey(privateKey);
         jws.setKeyIdHeaderValue(kid);
         jws.setHeader("typ", "JWT");
-        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA256);
+        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
 
         return jws.getCompactSerialization();
     }

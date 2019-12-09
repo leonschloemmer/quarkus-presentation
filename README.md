@@ -3,9 +3,9 @@
 Execucte following commands in the console, inside src/main/resources
 
 ```
-openssl genrsa -des3 -out private.pem 4096
+openssl genpkey -out private.pem -algorithm RSA -pkeyopt rsa_keygen_bits:2048
 ```
 
 ```
-rsa -in private.pem -outform PEM -pubout -out public.pem
+openssl rsa -in private.pem -outform PEM -pubout -out public.pem
 ```
