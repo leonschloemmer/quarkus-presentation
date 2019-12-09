@@ -1,9 +1,11 @@
 package at.htl.boundary;
 
-import at.htl.control.PasswordSecurity;
+import at.htl.control.PasswordSecurityUtils;
+import at.htl.control.dao.UserDAO;
 import at.htl.entity.User;
 import at.htl.restInterface.UserInterface;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,11 +17,14 @@ import java.security.spec.InvalidKeySpecException;
 @Transactional
 public class UserEndpoint {
 
+    @Inject
+    UserDAO userRepo;
+
     @POST
     public Response createUser(UserInterface ui) {
         String hashedPassword;
         try {
-            hashedPassword = PasswordSecurity.generatePasswordHash(ui.getPassword());
+            hashedPassword = PasswordSecurityUtils.generatePasswordHash(ui.getPassword());
         } catch (NoSuchAlgorithmException e) {
             return Response.serverError().build();
         } catch (InvalidKeySpecException e) {
@@ -27,6 +32,9 @@ public class UserEndpoint {
         }
 
         User user = new User(ui.getUsername(), hashedPassword);
+        userRepo.persistUser(user);
+
+        // return jwt to permit access to secure information
     }
 
 }

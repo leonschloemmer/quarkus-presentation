@@ -10,7 +10,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
-public class PasswordSecurity {
+public class PasswordSecurityUtils {
+
+    private PasswordSecurityUtils() {}
 
     public static String generatePasswordHash(String password)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
