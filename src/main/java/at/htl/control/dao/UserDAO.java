@@ -1,6 +1,6 @@
 package at.htl.control.dao;
 
-import at.htl.entity.User;
+import at.htl.entity.MyUser;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,8 +14,8 @@ public class UserDAO {
     EntityManager em;
 
     @Transactional
-    public void persistUser(User user) {
-        em.persist(user);
+    public void persistUser(MyUser myUser) {
+        em.persist(myUser);
     }
 
 }
